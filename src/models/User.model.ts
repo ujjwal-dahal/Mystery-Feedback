@@ -1,5 +1,5 @@
-import mongoose , {Schema , Document} from "mongoose";
-import { Message } from "./Message.model";
+import mongoose , {Schema , Document, Mongoose} from "mongoose";
+import { Message, MessageSchema } from "./Message.model";
 
 
 
@@ -9,27 +9,53 @@ export interface User extends Document {
   password : string,
   verifyCode : string ,
   verifyCodeExpiry : Date,
+  isVerified : boolean ,
   isAcceptingMessage : boolean ,
-  message : Message[]
+  messages : Message[]
 }
 
 
 
-const UserSchema = new Schema({
+const UserSchema : Schema<User> = new Schema({
   username : {
     type : String,
-    required : true
+    required : [true , "Username must be given"],
+    unique : true,
+    trim : true
   },
   email :{
     type : String,
-    required : true
+    required :  [true , "Email must be given"],
+    unique : true,
+    trim : true,
+    match : [/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ , "Please Enter Valid Email Addredd"]
   },
   password : {
     type : String,
-    required : true
+    required :  [true , "Password must be given"]
   },
-  verifyCode : String,
-  verifyCodeExpiry : Date,
-  isAcceptingMessage : Boolean
+  verifyCode : {
+    type : String,
+    required :  [true , "Verify Code is required"]
+  },
+  verifyCodeExpiry : {
+    type : Date,
+    required :  [true , "Verify Code Expiry is required"]
+  },
+  isVerified : {
+    type : Boolean,
+    default : false
+  },
+  isAcceptingMessage : {
+    type : Boolean,
+    required :  [true , "Verify Code Expiry is required"]
+  },
+  messages : [MessageSchema]
+
   
 })
+
+
+const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User",UserSchema);
+
+export default UserModel;
