@@ -9,6 +9,7 @@ export const emailValidation = z.string().email({
     message: "Invalid email address" 
 });
 
+
 export const passwordValidation = z.string()
     .min(5, "Password must contain at least 5 characters")
     .max(20, "Password must not exceed 20 characters")
