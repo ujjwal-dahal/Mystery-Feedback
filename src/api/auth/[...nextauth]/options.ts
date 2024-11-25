@@ -82,9 +82,24 @@ export const {handlers , signIn , signOut , auth} = NextAuth({
   callbacks : {
     async jwt({ token, user}) {
       //token lai modify gareko
+      if(user){
+      token._id = user._id?.toString()
+      token.isVerified = user.isVerified
+      token.isAcceptingMessage = user.isAcceptingMessage
+      token.username = user.username
+      }
       return token
     },
     async session({ session, token }) {
+      if(token){
+        session.user._id = token._id as string
+        session.user.isVerified = token.isVerified as boolean
+        session.user.isAcceptingMessage = token.isAcceptingMessage as boolean
+        session.user.username = token.username as string
+
+        
+      }
+      
       return session
     },
     
