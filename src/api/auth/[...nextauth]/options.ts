@@ -1,4 +1,3 @@
-import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
@@ -6,7 +5,8 @@ import databaseConnection from "@/lib/dbConnection";
 import UserModel from "@/models/User.model";
 
 
-export const {handlers , signIn , signOut , auth} = NextAuth({
+
+export const authOptions = {
   providers : [
 
     Credentials({
@@ -74,13 +74,13 @@ export const {handlers , signIn , signOut , auth} = NextAuth({
   },
 
   session : {
-    strategy : "jwt"
+    strategy: "jwt",
   },
 
   secret : process.env.NEXTAUTH_SECRET,
 
   callbacks : {
-    async jwt({ token, user}) {
+    async jwt({ token , user } : any)  {
       //token lai modify gareko
       if(user){
       token._id = user._id?.toString()
@@ -90,7 +90,7 @@ export const {handlers , signIn , signOut , auth} = NextAuth({
       }
       return token
     },
-    async session({ session, token }) {
+    async session({ session, token } : any) {
       if(token){
         session.user._id = token._id as string
         session.user.isVerified = token.isVerified as boolean
@@ -104,4 +104,4 @@ export const {handlers , signIn , signOut , auth} = NextAuth({
     },
     
   }
-})
+} as any;
