@@ -1,97 +1,127 @@
-
-import { NextResponse , NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import databaseConnection from "@/lib/dbConnection";
 import UserModel from "@/models/User.model";
 import bcrypt from "bcryptjs";
 import { SendVerificationEmail } from "@/helpers/sendVerificationEmail";
 
-export const POST = async (request : NextRequest)=>{
-  
-  await databaseConnection(); //database connection
-  //databaseconnection harek route ma run garaunu parcha kina ki Next.js Edge ma run huncha
+export const POST = async (request: NextRequest) => {
+
+  // if(request.method !== "GET"){
+  //   return NextResponse.json({
+  //     success : false,
+  //     message : "Method Not Allowed"
+  //   },{status : 400})
+  // }
+
+  // Connect to the database
+  await databaseConnection();
 
   try {
-
+    // Parse the request body
     const reqBody = await request.json();
-    const {username , email , password} = reqBody;
+    const { username, email, password } = reqBody;
 
-    const existingUserVerifiedByUsername = await UserModel.findOne({username , isVerified : true});
-    
-    if(existingUserVerifiedByUsername){
-
-      return NextResponse.json({
-        success : false, //user already cha so success false
-        message : "Username is already taken"
-
-      },{status : 400})
+    // Validate username length
+    if (username.length <= 5) {
+      return NextResponse.json(
+        {
+          message: "Username must be greater than 5 characters",
+          success: false,
+        },
+        { status: 400 }
+      );
     }
 
-    const existingUserByEmail = await UserModel.findOne({email});
-    const verifyCodeOTP = Math.floor(100000 + Math.random() * 900000).toString();
+    // Check if the username is already taken by a verified user
+    const existingUserVerifiedByUsername = await UserModel.findOne({
+      username,
+      isVerified: true,
+    });
 
-    if(existingUserByEmail){
-      if(existingUserByEmail.isVerified){
-        return NextResponse.json({
-          success : false,
-          message : "User is already exist with this Email"
-        },{status : 400})
-      }
-      else{
-        const hashedPassword = await bcrypt.hash(password , 10)
+    if (existingUserVerifiedByUsername) {
+      return NextResponse.json(
+        {
+          success: false, // User already exists, success is false
+          message: "Username is already taken",
+        },
+        { status: 400 }
+      );
+    }
+
+    // Check if a user already exists with the same email
+    const existingUserByEmail = await UserModel.findOne({ email });
+    const verifyCodeOTP = Math.floor(100000 + Math.random() * 900000).toString(); // Generate a 6-digit OTP
+
+    if (existingUserByEmail) {
+      if (existingUserByEmail.isVerified) {
+        // If the user is already verified
+        return NextResponse.json(
+          {
+            success: false,
+            message: "User already exists with this email",
+          },
+          { status: 400 }
+        );
+      } else {
+        // If the user exists but is not verified, update their details
+        const hashedPassword = await bcrypt.hash(password, 10); // Hash the new password
         existingUserByEmail.password = hashedPassword;
         existingUserByEmail.verifyCode = verifyCodeOTP;
-        existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000)
+        existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000); // 1-hour expiry
 
         await existingUserByEmail.save();
       }
+    } else {
+      // If no user exists, create a new one
+      const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
+      const expiryDate = new Date();
+      expiryDate.setHours(expiryDate.getHours() + 1); // Set the OTP expiry time to 1 hour from now
 
-    }
-    else{
-      const hashedPassword = await bcrypt.hash(password , 10)
-      const expiryDate = new Date(); //malai aile esle current date diyo
-      expiryDate.setHours(expiryDate.getHours() + 1)
-
-     const newUser =  new UserModel({
+      const newUser = new UserModel({
         username,
         email,
-        password : hashedPassword,
-        verifyCode : verifyCodeOTP ,
-        verifyCodeExpiry : expiryDate,
-        isVerified : false ,
-        isAcceptingMessage : true ,
-        messages : []
-      })
+        password: hashedPassword,
+        verifyCode: verifyCodeOTP,
+        verifyCodeExpiry: expiryDate,
+        isVerified: false,
+        isAcceptingMessage: true,
+        messages: [],
+      });
 
-      const savedUser = await newUser.save();
+      await newUser.save();
     }
 
-    //send verification email
-
-    const emailResponse = await SendVerificationEmail(email , username , verifyCodeOTP)
-    if(!emailResponse.success){
-      return NextResponse.json({
-        success : false,
-        message : emailResponse.message,
-      },{status : 500})
+    // Send the verification email
+    const emailResponse = await SendVerificationEmail(email, username, verifyCodeOTP);
+    if (!emailResponse.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: emailResponse.message,
+        },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json({
-      success : true,
-      message : "User registered successfully . Please Verify Your Email"
-
-    },{status : 200})
-    
+    // Return success response
+    return NextResponse.json(
+      {
+        success: true,
+        message: "User registered successfully. Please verify your email.",
+      },
+      { status: 200 }
+    );
   } catch (error) {
-    console.error("Error registering user",error) //yo backend terminal ma jancha
-    return NextResponse.json({
-      success : false,
-      message : "Error registering user"
-    },{
-      status : 500
-    }) //yo frontend ma dekhincha
-    
+    // Log the error to the server console
+    console.error("Error registering user", error);
+
+    // Return error response
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Error registering user",
+      },
+      { status: 500 }
+    );
   }
-
-
-
-}
+};
