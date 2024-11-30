@@ -45,7 +45,11 @@ export async function GET(request : NextRequest)
     },{status : 200})
     
   } catch (error) {
-    
+    console.log("An Unexpected Error",error)
+    return NextResponse.json({
+      success :true,
+      message : "An Unexpected Error"
+    },{status : 200})
   }
 
 }
