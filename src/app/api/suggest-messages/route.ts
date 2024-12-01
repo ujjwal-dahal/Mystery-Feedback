@@ -1,4 +1,4 @@
-import { OpenAI } from 'openai';
+import { OpenAI } from 'openai'; //OpenAI library for making API calls to OpenAI models.
 import { NextRequest, NextResponse } from 'next/server';
 
 // Initialize OpenAI with your API key
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest): Promise<Response> {
 
     // Create a streaming completion request
     const response = await openai.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-3.5-turbo-instruct',
       prompt,
       max_tokens: 400,
       stream: true, // Enable streaming
@@ -38,12 +38,15 @@ export async function POST(request: NextRequest): Promise<Response> {
         'Content-Type': 'text/plain; charset=utf-8',
       },
     });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error('Error:', error.message);
+  } catch (error) {
+    if (error instanceof OpenAI.APIError) {
+      const {name , status , headers ,message} = error;
+
       return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
+       {
+        name , headers, message
+       },
+        {status}
       );
     } else {
       console.error('Unknown error occurred:', error);
