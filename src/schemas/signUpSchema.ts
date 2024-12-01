@@ -18,7 +18,7 @@ export const passwordValidation = z.string()
         "Password must include one uppercase, one lowercase, one digit, and one special character"
     );
 
-export const signUpValidation = z.object({
+export const signUpSchema = z.object({
     username: usernameValidation,
     email: emailValidation,
     password: passwordValidation,
