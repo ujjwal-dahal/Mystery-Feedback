@@ -1,5 +1,6 @@
 
 $primary-color: #4a90e2;
+$hover-color : #15549c;
 $secondary-color: #1a1a1a; 
 $background-color: #121212; 
 $dark-text: #f5f5f5; 
@@ -34,7 +35,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
     width: 100%;
-    max-width: 500px;
+    max-width: 510px;
     padding: 2.5rem;
 
     .head-part {
@@ -113,7 +114,7 @@ body {
         transition: all 0.3s;
 
         &:hover {
-          background-color: $primary-color;
+          background-color: $hover-color;
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
         }
@@ -124,7 +125,7 @@ body {
         }
 
         &:disabled {
-          background-color: $primary-color;
+          background-color: $hover-color;
           cursor: not-allowed;
           opacity: 0.6;
         }
@@ -132,9 +133,12 @@ body {
     }
 
     .member {
-      text-align: center;
       margin-top: 2rem;
       font-size: 0.95rem;
+      display: flex;
+      gap: 5px;
+      width: 100%;
+      justify-content: center;
 
       p {
         margin-bottom: 0.5rem;
@@ -148,7 +152,7 @@ body {
         transition: color 0.3s;
 
         &:hover {
-          color: lighten($primary-color, 15%);
+          color: $hover-color;
         }
       }
     }
