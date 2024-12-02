@@ -1,14 +1,14 @@
+
 $primary-color: #4a90e2;
-$hover-color: #15549c;
-$secondary-color: #1a1a1a;
-$background-color: #121212;
-$dark-text: #000000;
-$light-text : rgb(184, 184, 184);
-$border-color: #333333;
+$hover-color : #15549c;
+$secondary-color: #1a1a1a; 
+$background-color: #121212; 
+$dark-text: #f5f5f5; 
+$light-text: #b3b3b3; 
+$border-color: #333333; 
 $danger-color: #e74c3c;
-$success-color: #27ae60;
+$success-color: #27ae60; 
 $font-stack: "Montserrat", sans-serif;
-$box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 
 * {
   margin: 0;
@@ -20,42 +20,30 @@ body {
   font-family: $font-stack;
   background-color: $background-color;
   color: $dark-text;
-  line-height: 1.5;
 }
 
-.verify-container {
+
+.sign-up-container {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 1.5rem;
+  padding: 2rem;
 
-  .verify-content {
+  .sign-up-content {
     background: $secondary-color;
     border-radius: 12px;
-    box-shadow: $box-shadow;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
     width: 100%;
-    max-width: 520px;
+    max-width: 510px;
     padding: 2.5rem;
-    animation: fadeIn 0.3s ease-in-out;
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
 
     .head-part {
       text-align: center;
       margin-bottom: 2rem;
 
       h1 {
-        font-size: 2.4rem;
+        font-size: 2.2rem;
         font-weight: bold;
         color: $primary-color;
         margin-bottom: 0.8rem;
@@ -64,7 +52,6 @@ body {
       p {
         font-size: 1rem;
         color: $light-text;
-        margin: 0;
       }
     }
 
@@ -73,21 +60,29 @@ body {
       flex-direction: column;
       gap: 1.5rem;
 
-        input {
-          width: 100%;
-          padding: 0.85rem;
-          border: 1px solid $border-color;
-          border-radius: 6px;
-          font-size: 1rem;
-          background-color: $background-color;
-          color: $light-text;
-          outline: none;
-          transition: all 0.3s;
-  
-          &:focus {
-            border-color: $primary-color;
-            box-shadow: 0 0 8px $primary-color;
-          }
+      label {
+        font-weight: bold;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        display: block;
+        color: $dark-text;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.85rem;
+        border: 1px solid $border-color;
+        border-radius: 6px;
+        font-size: 1rem;
+        background-color: $background-color;
+        color: $dark-text;
+        outline: none;
+        transition: all 0.3s;
+
+        &:focus {
+          border-color: $primary-color;
+          box-shadow: 0 0 8px $primary-color;
+        }
       }
 
       .loader {
@@ -136,24 +131,51 @@ body {
         }
       }
     }
+
+    .member {
+      margin-top: 2rem;
+      font-size: 0.95rem;
+      display: flex;
+      gap: 5px;
+      width: 100%;
+      justify-content: center;
+
+      p {
+        margin-bottom: 0.5rem;
+        color: $light-text;
+      }
+
+      a {
+        color: $primary-color;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+
+        &:hover {
+          color: $hover-color;
+        }
+      }
+    }
   }
 }
 
 
 @media (max-width: 768px) {
-  .verify-content {
+  .sign-up-content {
     padding: 2rem;
   }
 
-  .head-part h1 {
-    font-size: 2rem;
-  }
+  .head-part {
+    h1 {
+      font-size: 1.9rem;
+    }
 
-  .form input {
-    font-size: 0.9rem;
+    p {
+      font-size: 0.95rem;
+    }
   }
 
   .form button {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 }
