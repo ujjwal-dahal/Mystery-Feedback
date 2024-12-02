@@ -52,9 +52,21 @@ export default function SignIn() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    const result = await signIn("google", { redirect: true, callbackUrl: "/dashboard" });
+
+    if (result?.error) {
+      toast({
+        title: "Login Failed",
+        description: "Could not sign in with Google",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
-    <div className="sign-up-container">
-      <div className="sign-up-content">
+    <div className="sign-in-container">
+      <div className="sign-in-content">
         <div className="head-part">
           <h1>Join Mystery Feedback</h1>
           <p>Sign in today and embark on your anonymous journey!</p>
@@ -93,12 +105,17 @@ export default function SignIn() {
               )}
             />
 
-            <Button type="submit">Signin</Button>
+            <Button type="submit">Sign in</Button>
           </form>
         </Form>
 
+        <div className="google-signin">
+          <p>Or sign in with:</p>
+          <Button onClick={handleGoogleSignIn}>Sign in with Google</Button>
+        </div>
+
         <div className="member">
-          <p>New User ?</p>
+          <p>New User?</p>
           <Link href="/sign-up">Sign up</Link>
         </div>
       </div>
