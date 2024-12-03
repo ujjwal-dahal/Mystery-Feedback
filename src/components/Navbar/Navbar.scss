@@ -1,0 +1,112 @@
+$primary-color: #4a90e2;
+$hover-color: #15549c;
+$background-color: #1a1a1a;
+$text-color: #ffffff;
+$font-stack: "Montserrat", sans-serif;
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $font-stack;
+}
+
+.navbar {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: $background-color;
+    color: $text-color;
+    padding: 1.3rem 2.4rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin: 20px 30px 50px 30px;
+    border-radius: 50px;
+
+    .navbar-logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+
+      a {
+        text-decoration: none;
+        color: $primary-color;
+        transition: color 0.3s;
+
+        &:hover {
+          color: $hover-color;
+        }
+      }
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 1.5rem;
+
+      a {
+        text-decoration: none;
+        color: $text-color;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: color 0.3s;
+
+        &:hover {
+          color: $hover-color;
+        }
+      }
+    }
+
+    .navbar-actions {
+      display: flex;
+      gap: 1rem;
+
+      .navbar-btn {
+        background-color: $primary-color;
+        color: $text-color;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          background-color: $hover-color;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 8px $primary-color;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    .navbar-links {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .navbar-actions {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
+}

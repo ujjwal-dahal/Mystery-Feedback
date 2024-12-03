@@ -6,36 +6,37 @@ import "./Navbar.scss";
 
 const Navbar = () => {
   const { data: session } = useSession();
-
   const user: User = session?.user as User;
 
   return (
-    <>
-      <div className="navbar">
-        <div className="title">
+    <nav className="navbar">
+      <div className="navbar-container">
+        <div className="navbar-logo">
           <Link href={"/"}>Mystery Feedback</Link>
         </div>
-        <div className="link">
+        <div className="navbar-links">
           <Link href={"/about"}>About</Link>
           <Link href={"/contact"}>Contact</Link>
           <Link href={"/disclaimer"}>Disclaimer</Link>
         </div>
-        <div className="button-area">
+        <div className="navbar-actions">
           {session ? (
-            <button onClick={() => signOut()}>Signout</button>
+            <button className="navbar-btn" onClick={() => signOut()}>
+              Sign out
+            </button>
           ) : (
             <>
               <Link href={"/sign-up"}>
-                <button>Signup</button>
+                <button className="navbar-btn">Sign up</button>
               </Link>
               <Link href={"/sign-in"}>
-                <button>Signin</button>
+                <button className="navbar-btn">Sign in</button>
               </Link>
             </>
           )}
         </div>
       </div>
-    </>
+    </nav>
   );
 };
 

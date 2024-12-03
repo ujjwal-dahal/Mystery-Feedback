@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AuthProvider } from "@/context/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
+import Navbar from "@/components/Navbar/Navbar";
 
 export const metadata: Metadata = {
   title: "Mystery Feedback",
@@ -16,6 +17,7 @@ export default function RootLayout({
     <html lang="en"> 
     <AuthProvider>
       <body> 
+        <Navbar />
           {children}
           <Toaster />
       </body>
