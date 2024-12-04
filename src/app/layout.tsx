@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Navbar/Navbar";
 import {ToastContainer} from "react-toastify";
 import "../../node_modules/react-toastify/dist/ReactToastify.css"
+import Footer from "@/components/Footer/Footer";
 
 export const metadata: Metadata = {
   title: "Mystery Feedback",
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body> 
         <Navbar />
           {children}
+        <Footer />
           <Toaster />
           <ToastContainer />
       </body>

@@ -1,13 +1,5 @@
-$primary-color: #4a90e2;
-$hover-color: #15549c;
-$secondary-color: #1a1a1a;
-$background-color: #121212;
-$dark-text: #000000;
-$light-text : rgb(184, 184, 184);
-$border-color: #333333;
-$danger-color: #e74c3c;
-$success-color: #27ae60;
-$font-stack: "Montserrat", sans-serif;
+@use "@/styles/variables" as *;
+
 $box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 
 * {
@@ -25,7 +17,7 @@ body {
 
 .verify-container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   min-height: 100vh;
   padding: 1.5rem;
@@ -73,21 +65,21 @@ body {
       flex-direction: column;
       gap: 1.5rem;
 
-        input {
-          width: 100%;
-          padding: 0.85rem;
-          border: 1px solid $border-color;
-          border-radius: 6px;
-          font-size: 1rem;
-          background-color: $background-color;
-          color: $light-text;
-          outline: none;
-          transition: all 0.3s;
-  
-          &:focus {
-            border-color: $primary-color;
-            box-shadow: 0 0 8px $primary-color;
-          }
+      input {
+        width: 100%;
+        padding: 0.85rem;
+        border: 1px solid $border-color;
+        border-radius: 6px;
+        font-size: 1rem;
+        background-color: $input-box-bg;
+        color: $light-text;
+        outline: none;
+        transition: all 0.3s;
+
+        &:focus {
+          border-color: $primary-color;
+          box-shadow: 0 0 8px $primary-color;
+        }
       }
 
       .loader {
@@ -139,7 +131,6 @@ body {
   }
 }
 
-
 @media (max-width: 768px) {
   .verify-content {
     padding: 2rem;
@@ -157,7 +148,6 @@ body {
     font-size: 0.9rem;
   }
 }
-
 
 @keyframes fadeIn {
   0% {

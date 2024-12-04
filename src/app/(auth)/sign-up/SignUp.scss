@@ -1,21 +1,14 @@
 
-$primary-color: #4a90e2;
-$hover-color : #15549c;
-$secondary-color: #1a1a1a; 
-$background-color: #121212; 
-$dark-text: #f5f5f5; 
-$light-text: #b3b3b3; 
-$border-color: #333333; 
-$danger-color: #e74c3c;
-$success-color: #27ae60; 
-$font-stack: "Montserrat", sans-serif;
+@use "@/styles/variables" as *;
 
-* {
+
+
+*{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: $font-stack;
 }
-
 body {
   font-family: $font-stack;
   background-color: $background-color;
@@ -75,7 +68,7 @@ body {
         border: 1px solid $border-color;
         border-radius: 6px;
         font-size: 1rem;
-        background-color: $background-color;
+        background-color: $input-box-bg;
         color: $dark-text;
         outline: none;
         transition: all 0.3s;

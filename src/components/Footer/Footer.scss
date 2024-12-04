@@ -1,0 +1,63 @@
+@use "@/styles/variables" as *;
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $font-stack;
+}
+
+.footer-container {
+  background-color: $navbar-footer-bg;
+  color: $white-text;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 20px;
+  position:relative;
+  bottom: 0px;
+  width: 100%;
+}
+
+
+.footer-text {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.footer-creator {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.footer-link {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: $hover-color;
+  }
+}
+
+@media (min-width: 768px) {
+  .footer-container {
+    padding: 20px 40px;
+  }
+
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .footer-text, .footer-creator {
+    font-size: 16px;
+  }
+
+  .footer-creator {
+    font-weight: 500;
+  }
+}

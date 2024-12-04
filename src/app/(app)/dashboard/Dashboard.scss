@@ -1,4 +1,7 @@
-@import "@/styles/variables";
+@use "@/styles/variables" as *;
+
+
+
 
 body {
   background-color: $background-color;
@@ -10,7 +13,9 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: $font-stack;
 }
+
 
 .dashboard-container {
   margin: 1rem auto;

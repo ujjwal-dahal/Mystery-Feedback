@@ -1,0 +1,98 @@
+@use "@/styles/variables" as *;
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $font-stack;
+}
+
+body {
+  background-color: $background-color;
+  color: $light-text;
+  font-family: $font-stack;
+}
+
+
+.home-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background-color: $background-color;
+  height: 100%;
+  width: 100%;
+
+  .home-header {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: $navbar-footer-bg;
+    }
+
+    p {
+      font-size: 1.125rem;
+      color: $dark-text;
+    }
+  }
+
+  .message-carousel {
+    width: 100%;
+    max-width: 40rem;
+
+    .carousel-item {
+      padding: 1rem;
+
+      .message-card {
+        background-color: $container-color;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        padding: 1.5rem;
+
+        .card-header {
+          h2 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: $danger-color;
+          }
+        }
+
+        .card-content {
+          display: flex;
+          align-items: flex-start;
+          gap: 1rem;
+
+          .mail-icon {
+            flex-shrink: 0;
+            font-size: 1.5rem;
+            color: $primary-color;
+          }
+
+          .card-text {
+            p {
+              margin: 0;
+              color: $dark-text;
+
+              &:first-child {
+                margin-bottom: 0.5rem;
+                font-size: 1rem;
+              }
+
+              &.card-received {
+                font-size: 0.875rem;
+                color: $dark-text;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

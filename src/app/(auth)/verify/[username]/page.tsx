@@ -1,6 +1,5 @@
 "use client";
 
-import { useToast } from "@/hooks/use-toast";
 import { verifySchema } from "@/schemas/verifySchema";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,11 +20,13 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+
+import { toast } from "react-toastify";
+
+
 const UsernamePage = () => {
   const router = useRouter();
   const params = useParams();
-  const { toast } = useToast();
-
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
 
   const form = useForm<z.infer<typeof verifySchema>>({
@@ -40,21 +41,32 @@ const UsernamePage = () => {
         code: data.code,
       });
 
-      toast({
-        title: "Success",
-        description: response.data.message,
+      
+      toast.success(response.data.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
       });
 
       router.replace("/sign-in");
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
 
-      toast({
-        title: "Verification Failed",
-        description:
-          axiosError.response?.data.message ?? "Something went wrong",
-        variant: "destructive",
-      });
+      // Show error toast using Toastify
+      toast.error(
+        axiosError.response?.data.message ?? "Something went wrong",
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        }
+      );
     } finally {
       setIsCheckingUsername(false);
     }
