@@ -1,0 +1,85 @@
+@import "@/styles/variables"; 
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.card {
+  background-color: $secondary-color;
+  color: $light-text;
+  border: 1px solid $border-color;
+  border-radius: 0.5rem;
+  padding: 1rem;
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    .card-title {
+      font-size: 1.2rem;
+      color: $dark-text;
+    }
+
+    .card-description {
+      font-size: 0.9rem;
+      color: $light-text;
+    }
+  }
+
+  .card-content {
+    font-size: 1rem;
+    color: $light-text;
+  }
+
+  .alert-dialog {
+    .alert-dialog-trigger {
+      background-color: $danger-color;
+      color: $light-text;
+
+      &:hover {
+        background-color: darken($danger-color, 10%);
+      }
+    }
+
+    .alert-dialog-content {
+      background-color: $background-color;
+      color: $light-text;
+      border: 1px solid $border-color;
+
+      .alert-dialog-title {
+        color: $danger-color;
+      }
+
+      .alert-dialog-description {
+        color: $light-text;
+      }
+
+      .alert-dialog-footer {
+        display: flex;
+        justify-content: flex-end;
+
+        .alert-dialog-action {
+          background-color: $danger-color;
+          color: $dark-text;
+
+          &:hover {
+            background-color: darken($danger-color, 10%);
+          }
+        }
+
+        .alert-dialog-cancel {
+          background-color: $secondary-color;
+          color: $light-text;
+
+          &:hover {
+            background-color: lighten($secondary-color, 10%);
+          }
+        }
+      }
+    }
+  }
+}

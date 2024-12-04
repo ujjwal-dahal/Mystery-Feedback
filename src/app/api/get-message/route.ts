@@ -15,7 +15,7 @@ export async function GET(request : NextRequest)
 
   if(!session || !session.user){
     return NextResponse.json({
-      message : "Not Authenticated",
+      messages : "Not Authenticated",
       success : false
     },{status : 500})
   }
@@ -35,7 +35,7 @@ export async function GET(request : NextRequest)
     if(!user || user.length ===0){
       return NextResponse.json({
         success : false,
-        message : "User not found"
+        messages : "User not found"
       },{status : 500})
     }
 
@@ -48,7 +48,7 @@ export async function GET(request : NextRequest)
     console.log("An Unexpected Error",error)
     return NextResponse.json({
       success :true,
-      message : "An Unexpected Error"
+      messages : "An Unexpected Error"
     },{status : 200})
   }
 
