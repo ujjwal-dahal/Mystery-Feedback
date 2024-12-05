@@ -4,104 +4,93 @@ import bcrypt from "bcryptjs";
 import databaseConnection from "@/lib/dbConnection";
 import UserModel from "@/models/User.model";
 
-
-
 export const authOptions = {
-  providers : [
-
+  providers: [
     Credentials({
-      name : "Credentials",
-      credentials : {
-        email : {
-          label : "Email",
-          type : "email"
+      name: "Credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
         },
-        password : {
-          label :"Password", 
-          type : "password"
+        password: {
+          label: "Password",
+          type: "password",
         },
       },
-
-      authorize : async (credentials : any) : Promise<any>=>{
-
-        await databaseConnection();
+      authorize: async (credentials: any): Promise<any> => {
+        await databaseConnection().catch((err) => {
+          console.error("Database connection failed:", err);
+          throw new Error("Database connection error");
+        });
 
         try {
-          const {email , password} = credentials;
+          const { email, password } = credentials;
 
-         const existingUser =  await UserModel.findOne({
-            $or : [
-              {email},
-              {username : credentials}
-            ]
-          }) 
+          const existingUser = await UserModel.findOne({
+            $or: [{ email }, { username: credentials.username }],
+          });
 
-          if(!existingUser){
-            throw new Error("No user found with this email")
+          if (!existingUser) {
+            throw new Error("No user found with this email");
           }
 
-          if(!existingUser.isVerified){
-            throw new Error("Please verify your account before login")
+          if (!existingUser.isVerified) {
+            throw new Error("Please verify your account before logging in");
           }
 
-          const isPasswordMatched =  await bcrypt.compare(password , existingUser.password)
-          if(isPasswordMatched){
-            return existingUser;
+          const isPasswordMatched = await bcrypt.compare(
+            password,
+            existingUser.password
+          );
+
+          if (!isPasswordMatched) {
+            throw new Error("Incorrect password");
           }
-          else{
-            throw new Error("Incorrect Password")
-          }
-          
-        } catch (error : any) {
-          throw new Error(error)
-          
+
+          return existingUser;
+        } catch (error: any) {
+          console.error("Authorization error:", error);
+          throw new Error(error.message || "An error occurred during login");
         }
-
-
-
-      }
+      },
     }),
 
     Google({
-      clientId : process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret : process.env.GOOGLE_CLIENT_SECRET as string
-    }),   
-  ]
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
+  ],
 
-  ,
-  pages : {
-    signIn : "signin",
+  pages: {
+    signIn: "/sign-in", 
   },
 
-  session : {
+  session: {
     strategy: "jwt",
   },
 
-  secret : process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
 
-  callbacks : {
-    async jwt({ token , user } : any)  {
-      //token lai modify gareko
-      if(user){
-      token._id = user._id?.toString()
-      token.isVerified = user.isVerified
-      token.isAcceptingMessage = user.isAcceptingMessage
-      token.username = user.username
+  callbacks: {
+    async jwt({ token, user }: any) {
+      if (user) {
+        token._id = user._id?.toString();
+        token.isVerified = user.isVerified;
+        token.isAcceptingMessage = user.isAcceptingMessage;
+        token.username = user.username;
       }
-      return token
+      return token;
     },
-    async session({ session, token } : any) {
-      if(token){
-        session.user._id = token._id as string
-        session.user.isVerified = token.isVerified as boolean
-        session.user.isAcceptingMessage = token.isAcceptingMessage as boolean
-        session.user.username = token.username as string
-
-        
+    async session({ session, token }: any) {
+      if (token) {
+        session.user = session.user || {};
+        session.user._id = token._id || null;
+        session.user.isVerified = token.isVerified || false;
+        session.user.isAcceptingMessage = token.isAcceptingMessage || false;
+        session.user.username = token.username || null;
       }
-      
-      return session
+      return session;
     },
-    
-  }
+  },
 } as any;

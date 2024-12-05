@@ -15,6 +15,16 @@ body {
   color: $dark-text;
 }
 
+.success-message{
+  color: $success-color;
+  margin-top:4px; 
+}
+
+.error-message{
+  color: $danger-color; 
+  margin-top:4px;
+}
+
 
 .sign-up-container {
   display: flex;
@@ -43,7 +53,7 @@ body {
         margin-bottom: 0.8rem;
       }
 
-      p {
+      > p {
         font-size: 1rem;
         color: $light-text;
       }

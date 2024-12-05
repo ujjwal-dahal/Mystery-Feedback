@@ -5,6 +5,7 @@ import "./SignIn.scss";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
+import {toast} from "react-toastify";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import {
@@ -21,7 +22,6 @@ import { signInSchema } from "@/schemas/signInSchema";
 import { signIn } from "next-auth/react";
 
 export default function SignIn() {
-  const { toast } = useToast();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -40,11 +40,8 @@ export default function SignIn() {
     });
 
     if (result?.error) {
-      toast({
-        title: "Login Failed",
-        description: "Incorrect Email or Password",
-        variant: "destructive",
-      });
+      console.log(`Email : ${data.email} Password : ${data.password}`)
+      toast.error("Incorrect Email or Password")
     }
 
     if (result?.url) {
@@ -56,11 +53,7 @@ export default function SignIn() {
     const result = await signIn("google", { redirect: true, callbackUrl: "/dashboard" });
 
     if (result?.error) {
-      toast({
-        title: "Login Failed",
-        description: "Could not sign in with Google",
-        variant: "destructive",
-      });
+      toast.error("Could not sign in with Google")
     }
   };
 

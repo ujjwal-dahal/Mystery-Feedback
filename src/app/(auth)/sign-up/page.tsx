@@ -23,6 +23,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 
+import { toast } from "react-toastify";
+
 export default function SignUp() {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
@@ -31,7 +33,6 @@ export default function SignUp() {
 
   const debounced = useDebounceCallback(setUsername, 300);
 
-  const { toast } = useToast();
   const router = useRouter();
 
   const form = useForm({
@@ -72,19 +73,12 @@ export default function SignUp() {
     setIsSubmitting(true);
     try {
       const response = await axios.post<ApiResponse>("/api/sign-up", data);
-      toast({
-        title: "Success",
-        description: response.data.message,
-      });
+
+      toast.success(`${response.data.message}`)
       router.replace(`/verify/${data.username}`);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      toast({
-        title: "Signup Failed",
-        description:
-          axiosError.response?.data.message ?? "Something went wrong",
-        variant: "destructive",
-      });
+      toast.error(`${axiosError.response?.data.message}`) 
     } finally {
       setIsSubmitting(false);
     }
@@ -120,8 +114,8 @@ export default function SignUp() {
                   <p
                     className={`${
                       usernameMessage === "Username is available"
-                        ? "text-green-500"
-                        : "text-red-500"
+                        ? "success-message"
+                        : "error-message"
                     }`}
                   >
                     {usernameMessage}
@@ -157,7 +151,7 @@ export default function SignUp() {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="message" />
                 </FormItem>
               )}
             />

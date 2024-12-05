@@ -53,7 +53,10 @@ body {
         border: 1px solid $border-color;
         border-radius: 0.5rem;
         background-color: $background-color;
-        color: $light-text;
+        color: $dark-text;
+        font-weight: bold;
+        letter-spacing: 1px;
+        font-size: 15px;
         transition: border-color 0.3s;
 
         &:hover,
@@ -65,11 +68,12 @@ body {
       .copy-button {
         padding: 0.8rem 1.2rem;
         background-color: $primary-color;
-        color: $dark-text;
+        color: white;
         border: transparent;
         font-weight: bold;
         border-radius: 15px;
         transition: background-color 0.3s;
+        cursor: pointer;
 
         &:hover {
           background-color: $hover-color;

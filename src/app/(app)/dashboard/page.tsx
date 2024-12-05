@@ -28,7 +28,7 @@ const Dashboard = () => {
     resolver: zodResolver(acceptMessageSchema),
   });
 
-  const { register, handleSubmit, watch, setValue } = form;
+  const { register, watch, setValue } = form;
   const acceptMessages = watch("acceptMessages");
 
   const handleDeleteMessage = (messageId: string) => {
@@ -39,7 +39,7 @@ const Dashboard = () => {
     setIsSwitchLoading(true);
     try {
       const response = await axios.get<ApiResponse>("/api/accept-messages");
-      setValue("acceptMessages", response.data.isAcceptingMessages);
+      setValue("acceptMessages", response.data.isAcceptingMessages); // Update state from API
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast.error(
@@ -54,7 +54,7 @@ const Dashboard = () => {
     async (refresh = false) => {
       setIsLoading(true);
       try {
-        const response = await axios.get<ApiResponse>("/api/get-message");
+        const response = await axios.get<ApiResponse>("/api/get-messages");
         setMessages(response.data.messages || []);
         if (refresh) {
           toast.success(`${response.data.message}`);
@@ -62,7 +62,7 @@ const Dashboard = () => {
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
         toast.error(
-          `${axiosError.response?.data.message}` || "Failed to fetch settings"
+          `${axiosError.response?.data.message}` || "Failed to fetch messages"
         );
       } finally {
         setIsLoading(false);
@@ -78,23 +78,25 @@ const Dashboard = () => {
     }
   }, [session, fetchAcceptMessage, fetchMessages]);
 
-  const handleSwitchChange = async () => {
+  const handleSwitchChange = async (checked: boolean) => {
+    setIsSwitchLoading(true); 
     try {
       const response = await axios.post<ApiResponse>("/api/accept-messages", {
-        acceptMessages: !acceptMessages,
+        acceptMessages: checked,
       });
-      setValue("acceptMessages", !acceptMessages);
+      setValue("acceptMessages", checked); 
       toast.success(`${response.data.message}`);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast.error(
-        `${axiosError.response?.data.message}` || "Failed to fetch settings"
+        `${axiosError.response?.data.message}` || "Failed to update settings"
       );
+    } finally {
+      setIsSwitchLoading(false);
     }
   };
 
   const { username } = (session?.user || {}) as User;
-  // const username = "Ujjwal";
   const baseURL = `${window.location.protocol}//${window.location.host}`;
   const profileUrl = `${baseURL}/u/${username}`;
 
@@ -134,7 +136,7 @@ const Dashboard = () => {
         <Switch
           {...register("acceptMessages")}
           checked={acceptMessages}
-          onCheckedChange={handleSwitchChange}
+          onCheckedChange={(checked) => handleSwitchChange(checked)}
           disabled={isSwitchLoading}
           className="message-switch"
         />

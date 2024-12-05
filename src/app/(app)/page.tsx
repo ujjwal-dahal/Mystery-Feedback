@@ -1,21 +1,13 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { Mail } from "lucide-react";
-import { useEffect } from "react";
-import Autoplay from "embla-carousel-autoplay";
 import messages from "@/messages.json";
 import "./Home.scss";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Card, CardHeader } from "@/components/ui/card";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules"; // Correct import for Autoplay
+import "swiper/css";
 
 export default function Home() {
   return (
@@ -26,29 +18,31 @@ export default function Home() {
           <p>Your insights, without revealing your identity.</p>
         </section>
 
-        <Carousel
-          plugins={[Autoplay({ delay: 2000 })]}
-          className="message-carousel"
+        <Swiper
+          spaceBetween={30}
+          slidesPerView={1}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          loop={true}
+          modules={[Autoplay]} 
+          className="message-swiper"
         >
-          <CarouselContent>
-            {messages.map((message, index) => (
-              <CarouselItem key={index} className="carousel-item">
-                <Card className="message-card">
-                  <CardHeader className="card-header">
+          {messages.map((message, index) => (
+            <SwiperSlide key={index} className="carousel-item">
+              <div className="message-card">
+                <div className="card-header">
                   <h2>{message.title}</h2>
-                  </CardHeader>
-                  <div className="card-content">
-                    <Mail className="mail-icon" />
-                    <div className="card-text">
-                      <p>{message.content}</p>
-                      <p className="card-received">{message.received}</p>
+                </div>
+                <div className="card-content">
+                  <Mail className="mail-icon" />
+                  <div className="card-text">
+                    <p>{message.content}</p>
+                    <p className="card-received">{message.received}</p>
                   </div>
                 </div>
-                </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </main>
     </>
   );

@@ -1,6 +1,6 @@
 @use "@/styles/variables" as *;
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -10,19 +10,16 @@
 body {
   background-color: $background-color;
   color: $light-text;
-  font-family: $font-stack;
 }
-
 
 .home-main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 2rem 1rem;
   background-color: $background-color;
-  height: 100%;
-  width: 100%;
+  min-height: 65vh;
 
   .home-header {
     text-align: center;
@@ -41,52 +38,68 @@ body {
     }
   }
 
-  .message-carousel {
+  .message-swiper {
     width: 100%;
     max-width: 40rem;
 
     .carousel-item {
-      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      padding: 20px;
 
       .message-card {
         background-color: $container-color;
-        border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
         padding: 1.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        max-width: 30rem;
+        text-align: center;
+
+        &:hover {
+          transform: scale(1.05);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
 
         .card-header {
+          margin-bottom: 1rem;
+
           h2 {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            margin-bottom: 0.5rem;
             color: $danger-color;
           }
         }
 
         .card-content {
           display: flex;
-          align-items: flex-start;
-          gap: 1rem;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
 
           .mail-icon {
-            flex-shrink: 0;
-            font-size: 1.5rem;
+            font-size: 2rem;
             color: $primary-color;
           }
 
           .card-text {
+            text-align: center;
+
             p {
               margin: 0;
               color: $dark-text;
 
               &:first-child {
-                margin-bottom: 0.5rem;
                 font-size: 1rem;
+                margin-bottom: 0.5rem;
               }
 
               &.card-received {
                 font-size: 0.875rem;
                 color: $dark-text;
+                opacity: 0.7;
               }
             }
           }
@@ -95,4 +108,3 @@ body {
     }
   }
 }
-
