@@ -1,11 +1,15 @@
+"use client";
 
+import { useParams } from "next/navigation";
+import "./UserPage.scss";
 
-import React from 'react'
+export default function UserPage() {
+  const params = useParams(); 
+  const username = params.username; 
 
-const MessagePage = () => {
   return (
-    <div>MessagePage</div>
-  )
+    <>
+      <h1>Username: {username}</h1>
+    </>
+  );
 }
-
-export default MessagePage
