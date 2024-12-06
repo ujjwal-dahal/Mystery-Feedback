@@ -23,6 +23,8 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const { data: session } = useSession();
+  const [profileUrl, setProfileUrl] = useState("");
+
 
   const form: UseFormReturn = useForm({
     resolver: zodResolver(acceptMessageSchema),
@@ -96,9 +98,20 @@ const Dashboard = () => {
     }
   };
 
+  useEffect(() => {
+    if (session?.user) {
+      fetchMessages();
+      fetchAcceptMessage();
+    }
+  }, [session, fetchAcceptMessage, fetchMessages]);
+
   const { username } = (session?.user || {}) as User;
-  const baseURL = `${window.location.protocol}//${window.location.host}`;
-  const profileUrl = `${baseURL}/u/${username}`;
+  useEffect(() => {
+    if (typeof window !== "undefined" && session?.user?.username) {
+      const baseURL = `${window.location.protocol}//${window.location.host}`;
+      setProfileUrl(`${baseURL}/u/${session.user.username}`);
+    }
+  }, [session]);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
