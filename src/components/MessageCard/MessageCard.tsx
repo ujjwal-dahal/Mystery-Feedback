@@ -1,30 +1,19 @@
 "use client";
+
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 
 import "./MessageCard.scss";
 import { Message } from "@/models/Message.model";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 
@@ -37,50 +26,28 @@ export default function MessageCard({
   message,
   onMessageDelete,
 }: MessageCardProps) {
-  const { toast } = useToast();
 
-  const handleDeleteConfirm = async () => {
-    const response = await axios.delete<ApiResponse>(
-      `/api/delete-message/${message._id}`
-    );
-    toast({
-      title: response.data.message,
-    });
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete<ApiResponse>(
+        `/api/delete-message/${message._id}`
+      );
 
-    onMessageDelete(message._id as string);
+      toast(response.data.message);
+      onMessageDelete(message._id as string);
+    } catch (error) {
+      toast("Failed to delete the message. Please try again.");
+    }
   };
 
   return (
-    <>
-      <Card>
-        <CardHeader>
-          <CardTitle>Card Title</CardTitle>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="destructive">
-                <X />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDeleteConfirm}>
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-          <CardDescription>Card Description</CardDescription>
-        </CardHeader>
-        <CardContent></CardContent>
-      </Card>
-    </>
+    <Card className="message-card">
+      <CardHeader className="card-header">
+        <CardTitle>{message.content || "Untitled Message"}</CardTitle>
+        <Button variant="destructive" className="delete-button" onClick={handleDelete}>
+          <X />
+        </Button>
+      </CardHeader>
+    </Card>
   );
 }

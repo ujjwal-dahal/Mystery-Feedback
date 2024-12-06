@@ -1,17 +1,26 @@
 @import "@/styles/variables.scss";
 
-*{
+$muted-text : grey;
+$white-color : white;
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.card {
-  background-color: $secondary-color;
-  color: $light-text;
+.message-card {
+  margin-top: 1rem;
+  background-color: $container-color;
+  color: $dark-text;
   border: 1px solid $border-color;
   border-radius: 0.5rem;
   padding: 1rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
 
   .card-header {
     display: flex;
@@ -21,65 +30,27 @@
 
     .card-title {
       font-size: 1.2rem;
+      font-weight: 600;
       color: $dark-text;
     }
 
-    .card-description {
-      font-size: 0.9rem;
-      color: $light-text;
+    .delete-button {
+      background-color: $danger-color;
+      color: $white-color;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken($danger-color, 10%);
+      }
     }
   }
 
   .card-content {
     font-size: 1rem;
     color: $light-text;
+    margin-bottom: 1rem;
   }
 
-  .alert-dialog {
-    .alert-dialog-trigger {
-      background-color: $danger-color;
-      color: $light-text;
-
-      &:hover {
-        background-color: darken($danger-color, 10%);
-      }
-    }
-
-    .alert-dialog-content {
-      background-color: $background-color;
-      color: $light-text;
-      border: 1px solid $border-color;
-
-      .alert-dialog-title {
-        color: $danger-color;
-      }
-
-      .alert-dialog-description {
-        color: $light-text;
-      }
-
-      .alert-dialog-footer {
-        display: flex;
-        justify-content: flex-end;
-
-        .alert-dialog-action {
-          background-color: $danger-color;
-          color: $dark-text;
-
-          &:hover {
-            background-color: darken($danger-color, 10%);
-          }
-        }
-
-        .alert-dialog-cancel {
-          background-color: $secondary-color;
-          color: $light-text;
-
-          &:hover {
-            background-color: lighten($secondary-color, 10%);
-          }
-        }
-      }
-    }
-  }
 }

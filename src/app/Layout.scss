@@ -1,0 +1,24 @@
+@use "@/styles/variables.scss" as *;
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+input {
+  width: 100%;
+  padding: 0.85rem;
+  border: 1px solid $border-color;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: $input-box-bg;
+  color: $dark-text;
+  outline: none;
+  transition: all 0.3s;
+
+  &:focus {
+    border-color: $primary-color;
+    box-shadow: 0 0 8px $primary-color;
+  }
+}
+
+
+  body {
+    background-color: $background-color;
+  }

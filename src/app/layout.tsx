@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import {ToastContainer} from "react-toastify";
 import "../../node_modules/react-toastify/dist/ReactToastify.css"
 import Footer from "@/components/Footer/Footer";
+import "./Layout.scss";
 
 export const metadata: Metadata = {
   title: "Mystery Feedback",

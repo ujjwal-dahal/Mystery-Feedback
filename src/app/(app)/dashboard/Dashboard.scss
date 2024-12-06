@@ -1,5 +1,6 @@
 @use "@/styles/variables" as *;
 
+$white-color : white;
 
 
 
@@ -116,10 +117,11 @@ body {
       }
 
       &.checked {
-        background: $success-color;
+        background: $success-color !important;
+        
 
         &:after {
-          transform: translateX(26px);
+          transform: translateX(26px) !important;
         }
       }
     }
@@ -137,8 +139,9 @@ body {
     padding: 0.8rem 1.5rem;
     background-color: $primary-color;
     border-radius: 0.5rem;
-    color: $dark-text;
+    color: $white-color;
     font-weight: bold;
+    border: transparent;
 
     .loading-icon,
     .refresh-icon {
@@ -152,7 +155,7 @@ body {
 
   .messages-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
     gap: 1.5rem;
 
     .no-messages {

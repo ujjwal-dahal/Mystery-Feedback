@@ -1,0 +1,185 @@
+@use "@/styles/variables" as *;
+
+$white-color: white;
+$disabled-color : grey;
+
+.public-profile {
+  padding: 2rem;
+  background-color: $secondary-color;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 2rem auto;
+
+  .title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: $primary-color;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .input-field {
+    margin-bottom: 2rem;
+
+    p {
+      font-size: 1rem;
+      font-weight: bold;
+      color: $dark-text;
+      margin-bottom: 0.8rem;
+    }
+
+    .input-box {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      border: 1px solid $border-color;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      color: $dark-text;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: $primary-color;
+      color: $white-color;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: $hover-color;
+      }
+
+      &:disabled {
+        background-color: $disabled-color;
+        cursor: not-allowed;
+      }
+    }
+
+    .spin-message {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  .suggest-btn {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+
+    .button {
+      padding: 0.8rem 1.5rem;
+      background-color: $primary-color;
+      color: $white-color;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: $hover-color;
+      }
+
+      &:disabled {
+        background-color: $disabled-color;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .text {
+    font-size: 0.9rem;
+    color: $light-text;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .second-container {
+    background-color: $container-color;
+    border: 1px solid $border-color;
+    border-radius: 0.5rem;
+    padding: 1rem;
+
+    p {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: $dark-text;
+    }
+
+    .card-header {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: $primary-color;
+      margin-bottom: 1rem;
+    }
+
+    .card-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
+      .mb-2 {
+        padding: 0.6rem 1rem;
+        border: 1px solid $primary-color;
+        border-radius: 0.5rem;
+        color: $primary-color;
+        background-color: transparent;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          background-color: $primary-color;
+          color: $white-color;
+        }
+      }
+    }
+  }
+
+  .account-container {
+    margin-top: 2rem;
+    text-align: center;
+
+    .text {
+      font-size: 1rem;
+      font-weight: bold;
+      color: $dark-text;
+      margin-bottom: 1rem;
+    }
+
+    a {
+      text-decoration: none;
+
+      button {
+        padding: 0.8rem 1.5rem;
+        background-color: $primary-color;
+        color: $white-color;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: $hover-color;
+        }
+      }
+    }
+  }
+}
