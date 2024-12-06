@@ -1,28 +1,69 @@
-import { NextResponse } from "next/server";
-import { z } from "zod";
+import databaseConnection from '@/lib/dbConnection';
+import UserModel from '@/models/User.model';
+import { z } from 'zod';
+import { usernameValidation } from '@/schemas/signUpSchema';
 
 const UsernameQuerySchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters"),
+  username: usernameValidation,
 });
 
-export async function GET(req: Request) {
+export async function GET(request: Request) {
+  await databaseConnection();
+
   try {
-    const url = new URL(req.url);
-    const query = url.searchParams;
+    const { searchParams } = new URL(request.url);
+    const queryParams = {
+      username: searchParams.get('username'),
+    };
 
-    const username = query.get("username");
-    if (!username) {
-      return NextResponse.json({ error: "Username is required" }, { status: 400 });
+    const result = UsernameQuerySchema.safeParse(queryParams);
+
+    if (!result.success) {
+      const usernameErrors = result.error.format().username?._errors || [];
+      return Response.json(
+        {
+          success: false,
+          message:
+            usernameErrors?.length > 0
+              ? usernameErrors.join(', ')
+              : 'Invalid query parameters',
+        },
+        { status: 400 }
+      );
     }
 
-    const parsed = UsernameQuerySchema.safeParse({ username });
-    if (!parsed.success) {
-      return NextResponse.json({ error: parsed.error.format() }, { status: 400 });
+    const { username } = result.data;
+
+    const existingVerifiedUser = await UserModel.findOne({
+      username,
+      isVerified: true,
+    });
+
+    if (existingVerifiedUser) {
+      return Response.json(
+        {
+          success: false,
+          message: 'Username is already taken',
+        },
+        { status: 200 }
+      );
     }
 
-    const isUsernameUnique = username !== "takenUsername"; 
-    return NextResponse.json({ isUsernameUnique });
+    return Response.json(
+      {
+        success: true,
+        message: 'Username is unique',
+      },
+      { status: 200 }
+    );
   } catch (error) {
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    console.error('Error checking username:', error);
+    return Response.json(
+      {
+        success: false,
+        message: 'Error checking username',
+      },
+      { status: 500 }
+    );
   }
 }

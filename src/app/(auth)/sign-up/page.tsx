@@ -1,4 +1,5 @@
 "use client";
+
 import { useForm } from "react-hook-form";
 import "./SignUp.scss";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,7 +8,6 @@ import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useDebounceCallback } from "usehooks-ts";
-import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { signUpSchema } from "@/schemas/signUpSchema";
 import { ApiResponse } from "@/types/ApiResponse";
@@ -26,10 +26,13 @@ import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 
 export default function SignUp() {
+
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  console.log(usernameMessage)
 
   const debounced = useDebounceCallback(setUsername, 300);
 
@@ -53,6 +56,7 @@ export default function SignUp() {
             `/api/check-username-unique?username=${username}`
           );
           setUsernameMessage(response.data.message);
+          console.log("Error 1 : ",response.data)
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
           setUsernameMessage(
