@@ -32,7 +32,7 @@ export default function SignUp() {
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  console.log(usernameMessage)
+  // console.log(usernameMessage)
 
   const debounced = useDebounceCallback(setUsername, 300);
 
@@ -56,7 +56,7 @@ export default function SignUp() {
             `/api/check-username-unique?username=${username}`
           );
           setUsernameMessage(response.data.message);
-          console.log("Error 1 : ",response.data)
+          // console.log("Error 1 : ",response.data)
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
           setUsernameMessage(
@@ -117,7 +117,7 @@ export default function SignUp() {
                   {isCheckingUsername && <Loader2 className="loader" />}
                   <p
                     className={`${
-                      usernameMessage === "Username is available"
+                      usernameMessage === "Username is unique"
                         ? "success-message"
                         : "error-message"
                     }`}
